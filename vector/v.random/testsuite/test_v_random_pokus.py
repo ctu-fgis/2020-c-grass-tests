@@ -47,11 +47,29 @@ class Test_v_random(TestCase):
         topology = dict(points=npoints)
 
         self.assertVectorFitsTopoInfo(vector=output, reference=topology)
-        
-        #self.assertRasterMinMax(map=output, refmin=zmin, refmax=zmax)
+
+
+
+        self.assertModuleKeyValue('v.info', map=output, flags='etg',
+                                  sep="=", precision=5, layer="1",
+                                  reference=dict(name=output,
+                                                 num_dblinks=1,
+                                                 attribute_layer_name=output,
+                                                 attribute_layer_number=1,
+                                                 attribute_database_driver="sqlite",
+                                                 attribute_table=output,
+                                                 bottom=zmin,
+                                                 top=zmax))
+                                                 #where="bottom>zmin and top<zmax"))
+        #self.assertModule('v.info',map=output, flags='etg')
+        #self.assertVectorFitsUnivar(map=output, column='height', reference=topology, msg=None, layer=output, type=None, where="bottom>zmin and top<zmax", precision=0.1)
+        #self.assertRasterMinMax(map=output, refmin=zmin, refmax=zmax)
 
-        #self.assertModuleKeyValue('v.info', map=state, flags='gr',
-                          #reference=dict(min=zmin, max=zmax),
+
+        #self.assertModuleKeyValue('v.info', map=state, flags='gr',
+
+                          #reference=dict(min=zmin, max=zmax),
+
                           #precision=0.01, sep='=')
 
     def test_points_restrict (self):
@@ -61,7 +79,7 @@ class Test_v_random(TestCase):
         topology=dict(points=npoints)
         self.assertVectorFitsTopoInfo(vector=output, reference=topology)
         #self.assertVectorFitsTopoInfo(vector=state, reference=topology)
-        #self.assertVectorFitsRegionInfo(vector=state, precision=0.0001,reference=topology)
+        #self.assertVectorFitsRegionInfo(vector=state, precision=0.1,reference=topology)
 
 
 if __name__ == '__main__':
