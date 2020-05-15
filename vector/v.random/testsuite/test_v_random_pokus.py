@@ -44,25 +44,26 @@ class Test_v_random(TestCase):
         self.assertModule('v.random',output=output,npoints=npoints, zmin=zmin,zmax=zmax,column='height',overwrite=True,flags='z')
         
 
-        topology = dict(points=npoints)
-
+        # check number of points & 3D
+        topology = dict(points=npoints, map3d=1)
         self.assertVectorFitsTopoInfo(vector=output, reference=topology)
-
-
-
-        self.assertModuleKeyValue('v.info', map=output, flags='etg',
-                                  sep="=", precision=5, layer="1",
-                                  reference=dict(name=output,
-                                                 num_dblinks=1,
-                                                 attribute_layer_name=output,
-                                                 attribute_layer_number=1,
-                                                 attribute_database_driver="sqlite",
-                                                 attribute_table=output,
-                                                 bottom=zmin,
-                                                 top=zmax))
+
+        # check zmin & zmax
+        # self.assertModuleKeyValue('v.info', map=output, flags='g',
+        #                           sep="=", precision=5, layer="1",
+        #                           reference=dict(name=output,
+        #                                          num_dblinks=1,
+        #                                          attribute_layer_name=output,
+        #                                          attribute_layer_number=1,
+        #                                          attribute_database_driver="sqlite",
+        #                                          attribute_table=output,
+        #                                          bottom=zmin,
+        #                                          top=zmax))
                                                  #where="bottom>zmin and top<zmax"))
         #self.assertModule('v.info',map=output, flags='etg')
-        #self.assertVectorFitsUnivar(map=output, column='height', reference=topology, msg=None, layer=output, type=None, where="bottom>zmin and top<zmax", precision=0.1)
+
+        # check height column
+        self.assertVectorFitsUnivar(map=output, column='height', reference=topology, msg=None, layer=output, type=None, where="bottom>zmin and top<zmax", precision=0.1)
         #self.assertRasterMinMax(map=output, refmin=zmin, refmax=zmax)
 
 

@@ -7,6 +7,8 @@ import grass.script as gscript
 output = 'test01'
 npoints = 100
 state = 'boundary_state'
+zmin=10
+zmax=120
 
 class Test_v_random(TestCase):
 
@@ -24,5 +26,13 @@ class Test_v_random(TestCase):
         topology = dict(points=npoints)
         self.assertVectorFitsTopoInfo(vector=output, reference=topology)
 
+    def test_num_points_3D(self):
+        self.assertModule('v.random', output=output, npoints=npoints,
+                          zmin=zmin, zmax=zmax,
+                          overwrite=True, flags='z')
+
+        topology = dict(points=npoints, map3d=1)
+        self.assertVectorFitsTopoInfo(vector=output, reference=topology)
+        
 if __name__ == '__main__':
     test()
