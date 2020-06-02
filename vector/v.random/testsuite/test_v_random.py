@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-#import grass.script as gscript
+
 from grass.gunittest.case import TestCase
 from grass.gunittest.main import test
-import grass.script as gscript
 
 output = 'test01'
 npoints = 100
@@ -22,7 +21,9 @@ class Test_v_random(TestCase):
         cls.del_temp_region()
 
     def test_num_points(self):
-        self.assertModule('v.random', output=output, npoints=npoints, overwrite=True)
+        self.assertModule('v.random', output=output, npoints=npoints,
+                          overwrite=True)
+
         topology = dict(points=npoints)
         self.assertVectorFitsTopoInfo(vector=output, reference=topology)
 
